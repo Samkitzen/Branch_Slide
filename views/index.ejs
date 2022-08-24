@@ -14,14 +14,22 @@
 </head>
 
 <body>
+
     <main class="admin">
+
         <div class="admin__upload-file">
             <form action="/api/uploadFile" enctype="multipart/form-data" method="post">
-                <input type="file" class="admin__input" id="myFiles" name="myFiles" multiple/>
+                <label for="sem1file">Sem1 File</label>
+                <input type="file" class="admin__input" id="myFiles" name="sem1ZipFile"/>
+                <label for="sem1file">Sem2 File</label>
+                <input type="file" class="admin__input" id="myFiles" name="sem2ZipFile"/>
+                <input type="file" class="admin__input" id="myFiles" name="branchChange"/>
                 <input class="admin__submit" type="submit" />
             </form>
         </div>
+        <button><a href="/files/sem1ZipFile.zip">Download</a></button>
     </main>
+
 </body>
 
 </html>
