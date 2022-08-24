@@ -1,5 +1,42 @@
 <%- include('partials/header.ejs') %>
+<!-- <div class="timer">
+    <h1>Wait For file genration</h1>
+    <span id="timer">5</span>
+</div>
+<button id="btn" disabled><a href="/final.csv">Download Final File</a></button>
+<script>
+setTimeout(() => {
+    clearInterval(intervalID)
+    document.getElementById('btn').disabled = false;
+}, 6000);
 
-<h1>Files Uploaded Successfully</h1>
+intervalID = setInterval(() => {
+    var t = parseInt(document.getElementById('timer').innerText)
+    t = t-1;
+    document.getElementById('timer').innerText = t;
+}, 1000);
 
+</script> -->
+<style>
+    .download-btn{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+    }
+    .btn{
+        border: 1px solid black;
+        width: 400px;
+        height: 50px;
+        background-color: #8c1515;
+    }
+    .btn a{
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+<div class="download-btn">
+    <button class='btn' id="btn"><a href="/final.csv">Download Final File</a></button>
+</div>
 <%- include('partials/footer.ejs') %>
