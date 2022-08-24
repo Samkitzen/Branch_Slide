@@ -12,6 +12,7 @@
     "body-parser": "^1.20.0",
     "csv-parser": "^3.0.0",
     "csv-sorter": "^2.4.1",
+    "csv-writer": "^1.6.0",
     "csvtojson": "^2.0.10",
     "decompress": "^4.2.1",
     "dotenv": "^16.0.1",

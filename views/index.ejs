@@ -1,35 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/header.ejs') %>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
-    <!-- style.css file path in the line below. -->
-    <link rel="stylesheet" href="css/style.css" />
-    <!-- -------------------------------------- -->
-    <title>Upload Files</title>
-</head>
 
-<body>
+<style>
+    h1 {
+        font-size: 20px;
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
 
-    <main class="admin">
-
-        <div class="admin__upload-file">
-            <form action="/api/uploadFile" enctype="multipart/form-data" method="post">
-                <label for="sem1file">Sem1 File</label>
-                <input type="file" class="admin__input" id="myFiles" name="sem1ZipFile"/>
-                <label for="sem1file">Sem2 File</label>
-                <input type="file" class="admin__input" id="myFiles" name="sem2ZipFile"/>
-                <input type="file" class="admin__input" id="myFiles" name="branchChange"/>
-                <input class="admin__submit" type="submit" />
-            </form>
+    img {
+        height: 60px;
+    }
+</style>
+<div class="col-md-6 offset-md-3 mt-5">
+    <form accept-charset="UTF-8" action="api/uploadFile" method="POST" enctype="multipart/form-data">
+        <div class="mb-3 upload-field">
+            <label for="formFileMultiple" class="form-label">Upload Sem1 Files of all students</label>
+            <input class="form-control" name="sem1ZipFile" type="file" id="formFileMultiple" multiple>
         </div>
-        <button><a href="/files/sem1ZipFile.zip">Download</a></button>
-    </main>
+        <div class="mb-3 upload-field">
+            <label for="formFileMultiple" class="form-label">Upload Sem2 Files of all students</label>
+            <input class="form-control" type="file" name="sem2ZipFile" id="formFileMultiple" multiple>
+        </div>
+        <div class="mb-3 upload-field">
+            <label for="formFileMultiple" class="form-label">Upload csv file of students applying for branch
+                change</label>
+            <input class="form-control" type="file" name="branchChange" id="formFileMultiple" multiple>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
-</body>
-
-</html>
+<%- include('partials/footer.ejs') %>

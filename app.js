@@ -6,6 +6,8 @@ const multer = require('multer')
 const decompress = require('decompress');
 const CSVToJSON = require('csvtojson');
 const { DiscFullTwoTone } = require('@material-ui/icons')
+const { sort } = require('csv-sorter')
+const csvwriter = require('csv-writer')
 
 require('dotenv').config()
 
@@ -76,7 +78,9 @@ const convertToJson = (fileLocation, file) => {
                     delete obj['Total(MM-100)']
                 }
             })
-            fs.writeFileSync(`public/jsonfiles/${file}.json`, JSON.stringify(objArray, null, 4));
+            if (objArray !== null) {
+                fs.writeFileSync(`public/jsonfiles/${file}.json`, JSON.stringify(objArray, null, 4));
+            }
         }).catch(err => {
             console.log(err);
         });
@@ -94,21 +98,21 @@ app.post("/api/uploadFile", upload.fields([{ name: 'sem1ZipFile' }, { name: 'sem
     const filesSem1 = await decompress(__dirname + '/public/files/sem1ZipFile.zip', 'public/dist');
     const filesSem2 = await decompress(__dirname + '/public/files/sem2ZipFile.zip', 'public/dist');
 
-    res.json("Uploaded Successfully!!")
+    res.render('success')
 })
 
 app.get('/generate', (req, res) => {
     try {
         fs.readdir('public/dist', (err, dirs) => {
-            dirs.forEach((folder) => {
+            for (const folder of dirs) {
                 var folderPath = `public/dist/${folder}`
                 fs.readdir(folderPath, (err, files) => {
-                    files.forEach((file, index) => {
+                    for (const file of files) {
                         var fileLocation = path.join(folderPath, file)
                         convertToJson(fileLocation, file)
-                    })
+                    }
                 })
-            })
+            }
         })
         res.send("complete")
     } catch (err) {
@@ -137,29 +141,53 @@ app.get("/onefile", (req, res) => {
                 })
             })
         }
-        // const finalArray = []
-        // for (const [key, value] of Object.entries(dict)) {
-        //     finalArray.push(value)
-        // }
-        // fs.writeFile('public/finalfile.json', JSON.stringify(finalArray), (err) => {
-        //     console.log(err);
-        // });
 
 
         CSVToJSON().fromFile('public/files/branchChange.csv')
             .then(objArray => {
                 fs.writeFileSync(`public/branchchange.json`, JSON.stringify(objArray, null, 4));
-            }).catch(err => {
+            }).then(() => {
+                const branchC = require('./public/branchchange.json');
+                for (const obj of branchC) {
+                    if (dict[obj.enroll_no]) {
+                        obj['total'] = dict[obj.enroll_no].total;
+                        console.log(dict[obj.enroll_no]);
+                    }
+                }
+                branchC.sort((a, b) => (b.total - a.total || a.gender === 'F' || a.gender === 'M' || a.category === 'ST' || a.category === 'SC' || a.category === 'OBC' || a.category === 'GEN'));
+
+
+
+
+                var createCsvWriter = csvwriter.createObjectCsvWriter
+
+                // Passing the column names intp the module
+                const csvWriter = createCsvWriter({
+
+                    // Output csv file name is geek_data
+                    path: __dirname +'/public/final.csv',
+                    header: [
+
+                        // Title of the columns (column_names)
+                        { id: 'enroll_no', title: 'enroll_no' },
+                        { id: 'name', title: 'Name' },
+                        { id: 'gender', title: 'Gender' },
+                        { id: 'total', title: 'Total' },
+                        { id: 'category', title: 'category' },
+                    ]
+                });
+
+                csvWriter.writeRecords(branchC).then(()=>{
+                    console.log("CSV Made success");
+                })
+
+
+                res.send(branchC)
+            })
+            .catch(err => {
                 console.log(err);
             });
-        const branchC = require('./public/branchchange.json');
-        branchC.forEach((obj) => {
-            if (dict[obj.enroll_no]) {
-                obj['total'] = dict[obj.enroll_no].total;
-            }
-        })
 
-        res.send(branchC)
     })
 })
 

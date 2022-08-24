@@ -1,49 +1,32 @@
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
+
+
+/* Modify the background color */
+.navbar-custom {
+    background-color: #8c1515;
 }
 
-html {
-    font-size: 62.5%;
-    scroll-behavior: smooth;
+.upload-field{
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.upload-field input{
+    width:80%;
 }
 
-.admin {
-    margin-left: 50%;
-    margin-top: 7rem;
-    transform: translateX(-30%);
+footer{
+    background-color: #8c1515;
+    color: #fff;
+    width: 100%;
+    height: 10%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.admin__input {
-    border: none;
-    background-color: #41398e;
-    padding: 1rem 1.8rem;
-    color: #e2e0e0;
-    border-radius: 10rem;
-    margin-right: 2.5rem;
-}
 
-.admin__submit {
-    border: none;
-    background-color: #603556;
-    padding: 1rem 1.8rem;
-    color: #e2e0e0;
-    border-radius: 10rem;
-    cursor: pointer;
-}
-
-.admin__submit:focus {
-    outline: none;
-}
-
-.files__entity {
-    background-color: lightgray;
-    display: inline-block;
-    padding: 5px 10px;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
+.copyright-text {
+   width: 50%;
 }
